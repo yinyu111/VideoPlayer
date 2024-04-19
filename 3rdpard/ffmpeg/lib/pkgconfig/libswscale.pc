@@ -1,0 +1,14 @@
+prefix=/opt/homebrew/Cellar/ffmpeg/6.1.1_7
+exec_prefix=${prefix}
+libdir=/opt/homebrew/Cellar/ffmpeg/6.1.1_7/lib
+includedir=/opt/homebrew/Cellar/ffmpeg/6.1.1_7/include
+
+Name: libswscale
+Description: FFmpeg image rescaling library
+Version: 7.5.100
+Requires: 
+Requires.private: libavutil >= 58.29.100
+Conflicts:
+Libs: -L${libdir}  -lswscale 
+Libs.private: -lm
+Cflags: -I${includedir}
