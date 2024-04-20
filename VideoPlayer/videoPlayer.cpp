@@ -61,7 +61,9 @@ int main_thread()
 
 
 #include "AVReader/AVReader.h"
+#include "AVQueue/AVQueue.h"
 #include <iostream>
+
 
 int main() {
     std::cout << "Hello, videoPlayer + AVReader!" << std::endl;
@@ -101,6 +103,8 @@ int main() {
     int audioStreamIndex = reader.GetAudioStreamIndex();
 
     FILE* file = fopen("/Users/yinyu/code/testVideo/mumu1.yuv", "wb");
+    AVQueue<AVReaderPacket> packetQueue;
+
     while (i) {
         AVReaderPacket* packet = new AVReaderPacket();
         ret = reader.Read(packet);
@@ -108,6 +112,9 @@ int main() {
             std::cout << "read frame failed! i:" << i << std::endl;
             break;
         }
+
+        packetQueue.Push(packet);
+        std::cout << "packetQueue Size: " << packetQueue.GetSize() << std::endl;
 
         int streamIndex = packet->GetIndex();
         AVDecoder* avReaderDecoder = decoderList[streamIndex];
@@ -157,7 +164,7 @@ int main() {
         i--;
     }
 
-    for (int i = 0; i < streamCount; ++i) {
+    for (int i = 0; i < decoderList.size(); ++i) {
         AVDecoder* avReaderDecoder = decoderList[i];
 
         ret = avReaderDecoder->SendPacket(nullptr);
@@ -167,7 +174,7 @@ int main() {
         }
 
         while (1) {
-            AVReaderFrame* readerFrame;
+            AVReaderFrame* readerFrame = new AVReaderFrame();
             ret = avReaderDecoder->RecvFrame(&readerFrame);
             if (ret) {
                 break;
@@ -185,6 +192,17 @@ int main() {
         delete avReaderDecoder;
     }
     decoderList.clear();
+
+    while (packetQueue.GetSize() > 0) {
+        AVReaderPacket* packet = nullptr;
+        packetQueue.Pop(&packet);
+
+        std::cout << "packetQueue Size: " << packetQueue.GetSize() << std::endl;
+
+        if (packet != nullptr) {
+            delete packet;
+        }
+    }
 
     std::cout << "videoPlayer + AVReader end!" << std::endl;
     return 0;
