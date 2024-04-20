@@ -48,6 +48,13 @@ int AVReader::GetStream(AVReaderStream* readerStream, int streamID) {
     return 0;
 }
 
+int AVReader::GetVideoStreamIndex() {
+    return av_find_best_stream(avFormatManager->formatCtx, AVMediaType::AVMEDIA_TYPE_VIDEO, -1, -1, NULL, NULL);
+}
+int AVReader::GetAudioStreamIndex() {
+    return av_find_best_stream(avFormatManager->formatCtx, AVMediaType::AVMEDIA_TYPE_AUDIO, -1, -1, NULL, NULL);
+}
+
 int AVReader::Open(const char* sourcePath) {
     if (avFormatManager->formatCtx == nullptr) {
         std::cout << "AVReader::Open formatCtx is nullptr!" << std::endl;

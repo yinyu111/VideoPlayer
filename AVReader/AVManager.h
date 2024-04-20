@@ -12,6 +12,7 @@ extern "C" {
     #include <libavformat/version.h>
     #include <libavcodec/avcodec.h>
     #include <libavcodec/codec_par.h>
+    #include <libavutil/pixdesc.h>
 };
 
 #include "AVHeader.h"

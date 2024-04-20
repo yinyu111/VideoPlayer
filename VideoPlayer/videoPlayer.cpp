@@ -97,6 +97,10 @@ int main() {
     }
 
     int i = 100;
+    int videoStreamIndex = reader.GetVideoStreamIndex();
+    int audioStreamIndex = reader.GetAudioStreamIndex();
+
+    FILE* file = fopen("/Users/yinyu/code/testVideo/mumu1.yuv", "wb");
     while (i) {
         AVReaderPacket* packet = new AVReaderPacket();
         ret = reader.Read(packet);
@@ -105,8 +109,8 @@ int main() {
             break;
         }
 
-        int streamID = packet->GetIndex();
-        AVDecoder* avReaderDecoder = decoderList[streamID];
+        int streamIndex = packet->GetIndex();
+        AVDecoder* avReaderDecoder = decoderList[streamIndex];
 
         ret = avReaderDecoder->SendPacket(packet);
         if (ret) {
@@ -122,6 +126,30 @@ int main() {
             }
 
             std::cout << "frame recv success!" << std::endl;
+            if (streamIndex == videoStreamIndex) {
+                readerFrame->VideoInfo();
+            }
+            if (streamIndex == audioStreamIndex) {
+                readerFrame->AudioInfo();
+            }
+
+            int width = readerFrame->GetWidth();
+            int height = readerFrame->GetHeigth();
+            unsigned char* y = (unsigned char*)malloc(width * height);
+            unsigned char* u = (unsigned char*)malloc(width * height / 4);
+            unsigned char* v = (unsigned char*)malloc(width * height / 4);
+
+            readerFrame->GetY(y);
+            readerFrame->GetU(u);
+            readerFrame->GetV(v);
+
+            fwrite(y, width * height, 1, file);
+            fwrite(u, width * height / 4, 1, file);
+            fwrite(v, width * height / 4, 1, file);
+
+            free(y);
+            free(u);
+            free(v);
         }
 
 

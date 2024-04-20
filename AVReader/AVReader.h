@@ -25,6 +25,16 @@ class AVReaderFrame {
 public:
     AVReaderFrame();
     ~AVReaderFrame();
+
+    void VideoInfo();
+    void AudioInfo();
+
+    int GetWidth();
+    int GetHeigth();
+
+    int GetY(unsigned char* y);
+    int GetU(unsigned char* u);
+    int GetV(unsigned char* v);
 public:
     AVFrameManager* avFrameManager = nullptr;
 };
@@ -33,7 +43,6 @@ class AVReaderStream {
 public:
     AVReaderStream();
     ~AVReaderStream();
-
 public:
     int streamIndex = -1;
     AVStreamManager* avStreamManager = nullptr;
@@ -46,6 +55,9 @@ public:
 
     int GetStreamCount();
     int GetStream(AVReaderStream* readerStream, int streamID);
+
+    int GetVideoStreamIndex();
+    int GetAudioStreamIndex();
 
     int Open(const char* sourcePath);
     int Close();
