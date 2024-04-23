@@ -49,10 +49,10 @@ int AVReader::GetStream(AVReaderStream* readerStream, int streamID) {
 }
 
 int AVReader::GetVideoStreamIndex() {
-    return av_find_best_stream(avFormatManager->formatCtx, AVMediaType::AVMEDIA_TYPE_VIDEO, -1, -1, NULL, NULL);
+    return av_find_best_stream(avFormatManager->formatCtx, AVMediaType::AVMEDIA_TYPE_VIDEO, -1, -1, NULL, 0);
 }
 int AVReader::GetAudioStreamIndex() {
-    return av_find_best_stream(avFormatManager->formatCtx, AVMediaType::AVMEDIA_TYPE_AUDIO, -1, -1, NULL, NULL);
+    return av_find_best_stream(avFormatManager->formatCtx, AVMediaType::AVMEDIA_TYPE_AUDIO, -1, -1, NULL, 0);
 }
 
 int AVReader::Open(const char* sourcePath) {

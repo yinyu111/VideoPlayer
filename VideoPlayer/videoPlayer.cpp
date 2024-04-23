@@ -2,7 +2,7 @@
 // Created by 尹玉 on 2024/4/8.
 //
 
-#include "videoPlayer.h"
+#include "VideoPlayer.h"
 #include <iostream>
 #include <thread>
 #include <chrono>
@@ -35,7 +35,7 @@ int main2() {
     return 0;
 }
 
-class  videoPlayerThread : public videoThread
+class  videoPlayerThread : public VideoThread
 {
 private:
     int a;
@@ -65,7 +65,7 @@ int main_thread()
 #include <iostream>
 
 
-int main() {
+int main3() {
     std::cout << "Hello, videoPlayer + AVReader!" << std::endl;
 
     AVReader reader;
