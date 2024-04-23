@@ -10,6 +10,7 @@ add_library (
         AVPlayer.h
         AVPlayer.cpp
         AVReaderThread.cpp
+        AVDecoderThread.cpp
 )
 
 #add_executable (VideoPlayer "videoPlayer.cpp" "videoPlayer.h" "main.cpp")

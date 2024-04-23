@@ -16,10 +16,26 @@ public:
     AVReaderThread(std::string _sourcePath);
     ~AVReaderThread();
 
-    void run();
+    virtual void run();
 
 public:
     std::string sourcePath;
+};
+
+class AVDecoderThread : public VideoThread {
+public:
+    AVDecoderThread();
+    ~AVDecoderThread();
+
+    int Init(AVReaderStream* readerStream);
+    int PutPacket(AVReaderPacket* readerPacket);
+    int GetPacketQueueSize();
+
+    virtual void run();
+
+public:
+    AVDecoder* decoder = nullptr;
+    AVQueue<AVReaderPacket> packetQueue;
 };
 
 class AVPlayer {
