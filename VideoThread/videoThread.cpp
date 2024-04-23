@@ -7,7 +7,7 @@
 
 int VideoThread::Start()
 {
-    if (t != nullptr) {
+    if (t == nullptr) {
         stopFlag = 0;
         t = new std::thread(&VideoThread::run, this);
     }

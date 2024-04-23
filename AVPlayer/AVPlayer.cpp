@@ -21,12 +21,9 @@ int AVPlayer::Open() {
 }
 
 int AVPlayer::Play() {
-    if (readerThread != nullptr) {
-        readerThread->Start();
-        return 0;
-    }
-    return -1;
+    return 0;
 }
+
 int AVPlayer::Pause() {
     return 0;
 }

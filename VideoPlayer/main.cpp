@@ -2,7 +2,7 @@
 // Created by 尹玉 on 2024/4/21.
 //
 
-#include <unistd.h>
+#include <thread>
 #include "AVPlayer/AVPlayer.h"
 
 
@@ -10,9 +10,9 @@
     AVPlayer* avPlayer = new AVPlayer("/Users/yinyu/code/testVideo/mumu.mp4");
 
     avPlayer->Open();
-    avPlayer->Play();
+//    avPlayer->Play();
 
-    sleep(5000);
+    std::this_thread::sleep_for(std::chrono::seconds(1));
 
     avPlayer->Stop();
 

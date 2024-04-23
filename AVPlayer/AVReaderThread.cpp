@@ -17,6 +17,7 @@ void AVReaderThread::run() {
     if (ret) {
         std::cout << "open file failed!" << std::endl;
         std::cout << "ret: " << ret << std::endl;
+        return;
     }
 
 
