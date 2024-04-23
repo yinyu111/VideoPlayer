@@ -6,7 +6,7 @@
 #include <iostream>
 #include <thread>
 #include <chrono>
-#include "VideoThread/videoThread.h"
+#include "VideoThread/VideoThread.h"
 
 void threadFunction(int i) {
     printf("Thread Function: %d\n", i);
