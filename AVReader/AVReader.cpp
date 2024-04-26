@@ -39,6 +39,9 @@ int AVReader::GetStream(AVReaderStream* readerStream, int streamID) {
     AVStream* avStream = avFormatManager->formatCtx->streams[streamID];
 
     readerStream->streamIndex = avStream->index;
+    readerStream->timebaseNum = avStream->time_base.num;
+    readerStream->timebaseDen = avStream->time_base.den;
+
     int ret = avcodec_parameters_copy(readerStream->avStreamManager->codecPar, avStream->codecpar);
     if (ret < 0) {
         std::cout << "AVReader::GetStream parameters_copy error!" << std::endl;

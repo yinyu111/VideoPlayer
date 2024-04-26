@@ -11,23 +11,49 @@
 #include "AVReader/AVReader.h"
 #include "AVQueue/AVQueue.h"
 
+enum DecoderType {
+    DECODER_TYPE_UNKNOWN,
+    DECODER_TYPE_VIDEO,
+    DECODER_TYPE_AUDIO
+};
+
+class AVSyncThread : public VideoThread{
+public:
+    AVSyncThread(std::string _sourcePath);
+    ~AVSyncThread();
+
+    virtual void run();
+
+    int GetVideoQueueSize();
+    int GetAudioQueueSize();
+    int PushFrameToVideoQueue(AVReaderFrame* videoFrame);
+    int PushFrameToAudioQueue(AVReaderFrame* audioFrame);
+
+public:
+    AVQueue<AVReaderFrame> videoQueue;
+    AVQueue<AVReaderFrame> audioQueue;
+
+    std::string sourcePath;
+};
+
 class AVReaderThread : public VideoThread{
 public:
-    AVReaderThread(std::string _sourcePath);
+    AVReaderThread(std::string _sourcePath, AVSyncThread* _synvThread);
     ~AVReaderThread();
 
     virtual void run();
 
 public:
     std::string sourcePath;
+    AVSyncThread* synvThread = nullptr;
 };
 
 class AVDecoderThread : public VideoThread {
 public:
-    AVDecoderThread();
+    AVDecoderThread(AVSyncThread* _synvThread);
     ~AVDecoderThread();
 
-    int Init(AVReaderStream* readerStream);
+    int Init(AVReaderStream* readerStream, DecoderType _decoderType);
     int PutPacket(AVReaderPacket* readerPacket);
     int GetPacketQueueSize();
 
@@ -35,7 +61,10 @@ public:
 
 public:
     AVDecoder* decoder = nullptr;
+    AVSyncThread* synvThread = nullptr;
     AVQueue<AVReaderPacket> packetQueue;
+
+    DecoderType decoderType = DECODER_TYPE_UNKNOWN;
 };
 
 class AVPlayer {
@@ -55,6 +84,8 @@ public:
 public:
     std::string sourcePath;
     AVReaderThread* readerThread = nullptr;
+
+    AVSyncThread* syncThread = nullptr;
 };
 
 

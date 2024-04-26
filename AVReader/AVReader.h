@@ -31,6 +31,7 @@ public:
 
     int GetWidth();
     int GetHeigth();
+    long long GetPTS();
 
     int GetY(unsigned char* y);
     int GetU(unsigned char* u);
@@ -45,6 +46,8 @@ public:
     ~AVReaderStream();
 public:
     int streamIndex = -1;
+    int timebaseNum = 0;
+    int timebaseDen = 0;
     AVStreamManager* avStreamManager = nullptr;
 };
 
@@ -78,6 +81,8 @@ public:
     int RecvFrame(AVReaderFrame** frame);
     int Close();
 private:
+    int timebaseNum = 0;
+    int timebaseDen = 0;
     AVDecoderManager* avDecoderManager = nullptr;
 
 };

@@ -4,8 +4,9 @@
 
 #include "AVPlayer.h"
 
-AVReaderThread::AVReaderThread(std::string _sourcePath) {
+AVReaderThread::AVReaderThread(std::string _sourcePath, AVSyncThread* _synvThread) {
     sourcePath = _sourcePath;
+    synvThread = _synvThread;
 }
 AVReaderThread::~AVReaderThread() {
 
@@ -21,27 +22,25 @@ void AVReaderThread::run() {
     }
 
 
-
-    int i = 100;
     int videoStreamIndex = reader.GetVideoStreamIndex();
     int audioStreamIndex = reader.GetAudioStreamIndex();
 
 
-    AVDecoderThread* videoDecoderThread = new AVDecoderThread();
-    AVDecoderThread* audioDecoderThread = new AVDecoderThread();
+    AVDecoderThread* videoDecoderThread = new AVDecoderThread(synvThread);
+    AVDecoderThread* audioDecoderThread = new AVDecoderThread(synvThread);
 
     AVReaderStream videoStream;
     reader.GetStream(&videoStream, videoStreamIndex);
-    videoDecoderThread->Init(&videoStream);
+    videoDecoderThread->Init(&videoStream, DecoderType::DECODER_TYPE_VIDEO);
 
     AVReaderStream audioStream;
     reader.GetStream(&audioStream, audioStreamIndex);
-    audioDecoderThread->Init(&audioStream);
+    audioDecoderThread->Init(&audioStream, DecoderType::DECODER_TYPE_AUDIO);
 
     videoDecoderThread->Start();
     audioDecoderThread->Start();
 
-    while (i) {
+    while (!stopFlag) {
         if (videoDecoderThread->GetPacketQueueSize() > 5 && audioDecoderThread->GetPacketQueueSize() > 5) {
             continue;
         }
@@ -49,24 +48,23 @@ void AVReaderThread::run() {
         AVReaderPacket* packet = new AVReaderPacket();
         ret = reader.Read(packet);
         if (ret) {
-            std::cout << "read frame failed! i:" << i << std::endl;
+            std::cout << "read frame failed!" << std::endl;
             delete packet;
             break;
         }
 
-        std::cout << "read frame success! i:" << i << std::endl;
+//        std::cout << "read frame success! i:" << i << std::endl;
         int streamIndex = packet->GetIndex();
         if (streamIndex == videoStreamIndex) {
             videoDecoderThread->PutPacket(packet);
-            std::cout << "VideoPacketQueueSize: " << videoDecoderThread->GetPacketQueueSize() << std::endl;
+//            std::cout << "VideoPacketQueueSize: " << videoDecoderThread->GetPacketQueueSize() << std::endl;
         }
         if (streamIndex == audioStreamIndex) {
             audioDecoderThread->PutPacket(packet);
-            std::cout << "AudioPacketQueueSize: " << audioDecoderThread->GetPacketQueueSize() << std::endl;
+//            std::cout << "AudioPacketQueueSize: " << audioDecoderThread->GetPacketQueueSize() << std::endl;
         }
-        std::cout << "put packet success! i:" << i << std::endl;
+//        std::cout << "put packet success! i:" << i << std::endl;
 //        delete packet;
-        i--;
     }
 
     videoDecoderThread->Stop();

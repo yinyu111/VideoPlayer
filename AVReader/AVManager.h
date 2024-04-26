@@ -27,6 +27,7 @@ class AVFrameManager
 {
 public:
     AVFrame* avFrame = nullptr;
+    double ptsSec = 0.0;
 };
 
 class AVFormatManager

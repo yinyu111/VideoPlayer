@@ -23,6 +23,9 @@ AVDecoder::~AVDecoder() {
 }
 
 int AVDecoder::Init(AVReaderStream* stream) {
+    timebaseNum = stream->timebaseNum;
+    timebaseDen = stream->timebaseDen;
+
     avcodec_parameters_to_context(avDecoderManager->codecCtx, stream->avStreamManager->codecPar);
     const AVCodec* avCodec = avcodec_find_decoder(avDecoderManager->codecCtx->codec_id);
     int ret = avcodec_open2(avDecoderManager->codecCtx, avCodec, nullptr);
@@ -46,6 +49,10 @@ int AVDecoder::SendPacket(AVReaderPacket* packet) {
 
 int AVDecoder::RecvFrame(AVReaderFrame** frame) {
     int ret = avcodec_receive_frame(avDecoderManager->codecCtx, (*frame)->avFrameManager->avFrame);
+    if (!ret) {
+        //计算秒级时间戳
+        (*frame)->avFrameManager->ptsSec = (*frame)->avFrameManager->avFrame->pts * 1.0 * timebaseNum / timebaseDen;
+    }
     return ret;
 }
 

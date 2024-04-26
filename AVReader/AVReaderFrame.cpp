@@ -68,6 +68,9 @@ int AVReaderFrame::GetWidth() {
 int AVReaderFrame::GetHeigth() {
     return avFrameManager->avFrame->height;
 }
+long long AVReaderFrame::GetPTS() {
+    return avFrameManager->ptsSec * 1000;
+}
 
 int AVReaderFrame::GetY(unsigned char* y) {
     int width = GetWidth();

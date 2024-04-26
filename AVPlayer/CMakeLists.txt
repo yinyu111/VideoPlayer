@@ -11,6 +11,7 @@ add_library (
         AVPlayer.cpp
         AVReaderThread.cpp
         AVDecoderThread.cpp
+        AVSyncThread.cpp
 )
 
 #add_executable (VideoPlayer "videoPlayer.cpp" "videoPlayer.h" "main.cpp")

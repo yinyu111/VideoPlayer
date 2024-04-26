@@ -5,8 +5,9 @@
 #include "AVPlayer.h"
 #include <thread>
 
-AVDecoderThread::AVDecoderThread() {
+AVDecoderThread::AVDecoderThread(AVSyncThread* _synvThread) {
     decoder = new AVDecoder();
+    synvThread = _synvThread;
 }
 
 AVDecoderThread::~AVDecoderThread() {
@@ -16,7 +17,8 @@ AVDecoderThread::~AVDecoderThread() {
     }
 }
 
-int AVDecoderThread::Init(AVReaderStream* readerStream) {
+int AVDecoderThread::Init(AVReaderStream* readerStream, DecoderType _decoderType) {
+    decoderType = _decoderType;
     return decoder->Init(readerStream);
 }
 
@@ -32,6 +34,21 @@ int AVDecoderThread::GetPacketQueueSize() {
 void AVDecoderThread::run() {
     int frameCount = 0;
     while (!stopFlag) {
+        std::this_thread::sleep_for(std::chrono::milliseconds(1));
+
+        if (decoderType == DECODER_TYPE_VIDEO) {
+            if (synvThread->GetVideoQueueSize() > 10) {
+                continue;
+            }
+        }
+        if (decoderType == DECODER_TYPE_AUDIO) {
+            if (synvThread->GetAudioQueueSize() > 10) {
+                continue;
+            }
+        }
+
+
+
         AVReaderPacket* readerPacket = nullptr;
         int i = packetQueue.GetSize();
         int ret = packetQueue.Pop(&readerPacket);
@@ -49,9 +66,15 @@ void AVDecoderThread::run() {
             }
 
             frameCount++;
-            std::cout << "recv frame success! frameCount:" << frameCount << std::endl;
 
-            std::this_thread::sleep_for(std::chrono::seconds(1));
+            if (synvThread != nullptr && decoderType == DECODER_TYPE_VIDEO) {
+                synvThread->PushFrameToVideoQueue(recvFrame);
+            }
+            if (synvThread != nullptr && decoderType == DECODER_TYPE_AUDIO) {
+                synvThread->PushFrameToAudioQueue(recvFrame);
+            }
+//            std::cout << "recv frame success! frameCount:" << frameCount << std::endl;
+//            std::this_thread::sleep_for(std::chrono::seconds(1));
         }
 
     }
