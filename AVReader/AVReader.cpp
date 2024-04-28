@@ -90,3 +90,13 @@ int AVReader::Read(AVReaderPacket* packet) {
     int ret = av_read_frame(avFormatManager->formatCtx, packet->avPacketManager->avPacket);
     return ret;
 }
+
+int AVReader::Seek(double seekTime) {
+    if (avFormatManager->formatCtx == nullptr) {
+        return -1;
+    }
+
+    int64_t timestamp = (int64_t)seekTime * AV_TIME_BASE;
+    int ret = av_seek_frame(avFormatManager->formatCtx, -1, timestamp, AVSEEK_FLAG_BACKWARD);
+    return ret;
+}

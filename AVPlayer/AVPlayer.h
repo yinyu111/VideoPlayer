@@ -17,9 +17,16 @@ enum DecoderType {
     DECODER_TYPE_AUDIO
 };
 
+enum AVPlayerState {
+    AV_STATE_INIT,
+    AV_STATE_PLAYING,
+    AV_STATE_PAUSED,
+    AV_STATE_STOPPED
+};
+
 class AVSyncThread : public VideoThread{
 public:
-    AVSyncThread(std::string _sourcePath);
+    AVSyncThread(std::string _sourcePath, double time);
     ~AVSyncThread();
 
     virtual void run();
@@ -29,16 +36,21 @@ public:
     int PushFrameToVideoQueue(AVReaderFrame* videoFrame);
     int PushFrameToAudioQueue(AVReaderFrame* audioFrame);
 
+    int Play();
+    int Pause();
+
 public:
     AVQueue<AVReaderFrame> videoQueue;
     AVQueue<AVReaderFrame> audioQueue;
 
     std::string sourcePath;
+    AVPlayerState playerState;
+    double seekTime;
 };
 
 class AVReaderThread : public VideoThread{
 public:
-    AVReaderThread(std::string _sourcePath, AVSyncThread* _synvThread);
+    AVReaderThread(std::string _sourcePath, AVSyncThread* _synvThread, double _seekTime);
     ~AVReaderThread();
 
     virtual void run();
@@ -46,6 +58,7 @@ public:
 public:
     std::string sourcePath;
     AVSyncThread* synvThread = nullptr;
+    double seekTime;
 };
 
 class AVDecoderThread : public VideoThread {
@@ -72,14 +85,14 @@ public:
     AVPlayer(std::string _sourcePath);
     ~AVPlayer();
 
-    int Open();
+    int Open(double time);
+    int Stop();
 
     int Play();
     int Pause();
-    int Stop();
 
+    int Seek(double time);
     int Compile(const char* compilePath);
-    int Seek();
 
 public:
     std::string sourcePath;

@@ -4,9 +4,10 @@
 
 #include "AVPlayer.h"
 
-AVReaderThread::AVReaderThread(std::string _sourcePath, AVSyncThread* _synvThread) {
+AVReaderThread::AVReaderThread(std::string _sourcePath, AVSyncThread* _synvThread, double _seekTime) {
     sourcePath = _sourcePath;
     synvThread = _synvThread;
+    seekTime = _seekTime;
 }
 AVReaderThread::~AVReaderThread() {
 
@@ -21,6 +22,7 @@ void AVReaderThread::run() {
         return;
     }
 
+    reader.Seek(seekTime);
 
     int videoStreamIndex = reader.GetVideoStreamIndex();
     int audioStreamIndex = reader.GetAudioStreamIndex();
@@ -53,18 +55,18 @@ void AVReaderThread::run() {
             break;
         }
 
-//        std::cout << "read frame success! i:" << i << std::endl;
+        //std::cout << "read frame success! i:" << i << std::endl;
         int streamIndex = packet->GetIndex();
         if (streamIndex == videoStreamIndex) {
             videoDecoderThread->PutPacket(packet);
-//            std::cout << "VideoPacketQueueSize: " << videoDecoderThread->GetPacketQueueSize() << std::endl;
+            //std::cout << "VideoPacketQueueSize: " << videoDecoderThread->GetPacketQueueSize() << std::endl;
         }
         if (streamIndex == audioStreamIndex) {
             audioDecoderThread->PutPacket(packet);
-//            std::cout << "AudioPacketQueueSize: " << audioDecoderThread->GetPacketQueueSize() << std::endl;
+            //std::cout << "AudioPacketQueueSize: " << audioDecoderThread->GetPacketQueueSize() << std::endl;
         }
-//        std::cout << "put packet success! i:" << i << std::endl;
-//        delete packet;
+        //std::cout << "put packet success! i:" << i << std::endl;
+        //delete packet;
     }
 
     videoDecoderThread->Stop();

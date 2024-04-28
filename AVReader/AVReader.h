@@ -65,6 +65,7 @@ public:
     int Open(const char* sourcePath);
     int Close();
     int Read(AVReaderPacket* packet);
+    int Seek(double seekTime);
 
 private:
     AVFormatManager* avFormatManager = nullptr;

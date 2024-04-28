@@ -11,7 +11,7 @@ AVPlayer::~AVPlayer() {
 
 }
 
-int AVPlayer::Open() {
+int AVPlayer::Open(double time) {
 //    if (readerThread == nullptr) {
 //        readerThread = new AVReaderThread(sourcePath);
 //        readerThread->Start();
@@ -19,20 +19,13 @@ int AVPlayer::Open() {
 //    }
 
     if (syncThread == nullptr) {
-        syncThread = new AVSyncThread(sourcePath);
+        syncThread = new AVSyncThread(sourcePath, time);
         syncThread->Start();
         return 0;
     }
     return -1;
 }
 
-int AVPlayer::Play() {
-    return 0;
-}
-
-int AVPlayer::Pause() {
-    return 0;
-}
 int AVPlayer::Stop() {
 //    if (readerThread != nullptr) {
 //        readerThread->Stop();
@@ -50,9 +43,26 @@ int AVPlayer::Stop() {
     return -1;
 }
 
-int AVPlayer::Compile(const char* compilePath) {
+int AVPlayer::Play() {
+    if (syncThread != nullptr) {
+        syncThread->Play();
+    }
     return 0;
 }
-int AVPlayer::Seek() {
+
+int AVPlayer::Pause() {
+    if (syncThread != nullptr) {
+        syncThread->Pause();
+    }
+    return 0;
+}
+
+int AVPlayer::Seek(double time) {
+    Stop();
+    Open(time);
+    return 0;
+}
+
+int AVPlayer::Compile(const char* compilePath) {
     return 0;
 }
