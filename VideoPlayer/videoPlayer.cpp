@@ -207,3 +207,10 @@ int main3() {
     std::cout << "videoPlayer + AVReader end!" << std::endl;
     return 0;
 }
+
+
+#include "Render/test.h"
+int main() {
+    test::testMain();
+    return 0;
+}

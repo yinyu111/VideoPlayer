@@ -10,7 +10,9 @@
 //模仿java线程 明确资源 清晰 正常回收资源/正常运行
 // 达到线程安全
 
-#include "iostream"
+#include <iostream>
+#include <thread>
+
 
 class VideoThread {
 public:

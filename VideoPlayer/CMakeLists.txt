@@ -4,11 +4,16 @@ include_directories(../)
 #include_directories(../3rdpard/ffmpeg/include)
 link_directories(../3rdpard/ffmpeg/lib)
 
+#include_directories(../3rdpard/glfw/include)
+#include_directories(../3rdpard/glad/include)
+#link_directories(../3rdpard/glfw/lib)
+
 add_executable (VideoPlayer "videoPlayer.cpp" "videoPlayer.h" "main.cpp")
 
 target_link_libraries(VideoPlayer VideoThread)
 target_link_libraries(VideoPlayer AVReader)
 target_link_libraries(VideoPlayer AVPlayer)
+target_link_libraries(VideoPlayer Render)
 
 target_link_libraries(VideoPlayer avcodec)
 target_link_libraries(VideoPlayer avdevice)

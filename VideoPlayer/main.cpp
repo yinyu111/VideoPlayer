@@ -7,7 +7,7 @@
 #include "AVPlayer/AVPlayer.h"
 
 
- int main() {
+ int main4() {
     AVPlayer* avPlayer = new AVPlayer("/Users/yinyu/code/testVideo/mumu.mp4");
 
     avPlayer->Open(0);
