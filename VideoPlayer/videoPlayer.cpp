@@ -209,7 +209,7 @@ int main3() {
 }
 
 
-#include "Render/test.h"
+#include "Render/Render.h"
 int main() {
     test::testMain();
     return 0;

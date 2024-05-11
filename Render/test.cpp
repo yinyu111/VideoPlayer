@@ -2,7 +2,7 @@
 // Created by 尹玉 on 2024/5/10.
 //
 
-#include "test.h"
+#include "Render.h"
 #include <iostream>
 
 #include <glad/glad.h>
@@ -25,10 +25,17 @@ int test::testMain() {
 
     gladLoadGLLoader((GLADloadproc) glfwGetProcAddress);
 
+    char* str = "int main";
+//    RenderShader* shader = new RenderShader(str, RenderShaderType::RENDER_VERTEX_SHADER);
+    RenderProgram* program = new RenderProgram(str, str);
+
     while (!glfwWindowShouldClose(window)) {
         glfwSwapBuffers(window);
         glfwPollEvents();
     }
+
+//    delete shader;
+    delete program;
 
     glfwTerminate();
     std::cout << "Hello, videoPlayer!kaku2" << std::endl;
