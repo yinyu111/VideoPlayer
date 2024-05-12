@@ -12,7 +12,7 @@
 
 enum RenderShaderType{
     RENDER_VERTEX_SHADER = 1,
-    RENDER_FRAGMENT_SHADER,
+    RENDER_FRAGMENT_SHADER = 2,
 };
 
 class RenderShader {

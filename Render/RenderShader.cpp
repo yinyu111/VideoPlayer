@@ -11,6 +11,9 @@ RenderShader::RenderShader(char* shaderStr, RenderShaderType type) {
     else if (type == RenderShaderType::RENDER_FRAGMENT_SHADER) {
         shader = glCreateShader(GL_FRAGMENT_SHADER);
     }
+    else {
+
+    }
 
     glShaderSource(shader, 1, &shaderStr, NULL);
 

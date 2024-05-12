@@ -8,6 +8,16 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
+#define SHADER1(x) #x
+#define CHANGE(shader) "" SHADER1(shader)
+
+
+#define STRINGIZE(x)  #x
+#define SHADER(shader) "" STRINGIZE(shader)
+
+
+
+
 int test::testMain() {
     std::cout << "testMain()" << std::endl;
 
@@ -25,9 +35,52 @@ int test::testMain() {
 
     gladLoadGLLoader((GLADloadproc) glfwGetProcAddress);
 
-    char* str = "int main";
+    char* vertexShaderStr =
+            "#version 330 core\n"
+            "layout (location = 0) in vec3 pos;\n"
+            "out vec3 outPos;"
+            "void main()\n"
+            "{\n"
+            "   outPos = pos;\n"
+            "   gl_Position = vec4(pos, 1.0);\n"
+            "}\n";
+
+    char* fragmentShaderStr =
+            "#version 330 core\n"
+            "in vec3 outPos;\n"
+            "out vec4 rgbaColor;\n"
+            "void main() {\n"
+            "    rgbaColor = vec4(outPos, 1.0);\n"
+            "}\n";
+
+//    char* vertexShaderStr = SHADER
+//    (
+//            #version 330 core
+//            layout (location = 0) in vec3 pos;
+//            out vec3 outPos;
+//            void main() {
+//                outPos = pos
+//                gl_position = position;
+//            }
+//    );
+//
+//    char* fragmentShaderStr = SHADER
+//    (
+//            #version 330 core\n
+//            in vec3 outPos;
+//            out vec4 rgbaColor;
+//            void main() {
+//                rgbaColor = vec4(outPos, 1.0);
+//            }
+//    );
+
+    std::cout << "vertexShaderStr:" << std::endl;
+    std::cout << vertexShaderStr << std::endl;
+    std::cout << "fragmentShaderStr:" << std::endl;
+    std::cout << fragmentShaderStr << std::endl;
+
 //    RenderShader* shader = new RenderShader(str, RenderShaderType::RENDER_VERTEX_SHADER);
-    RenderProgram* program = new RenderProgram(str, str);
+    RenderProgram* program = new RenderProgram(vertexShaderStr, fragmentShaderStr);
 
     while (!glfwWindowShouldClose(window)) {
         glfwSwapBuffers(window);
