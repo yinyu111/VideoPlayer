@@ -79,15 +79,31 @@ int test::testMain() {
     std::cout << "fragmentShaderStr:" << std::endl;
     std::cout << fragmentShaderStr << std::endl;
 
+    float vertex[] = {
+            0.0f, 1.0f, 0.0,
+            1.0f, -1.0f, 1.0,
+            -1.0f, -1.0f, 0.0,
+    };
+    RenderVAO* vao = new RenderVAO();
+    vao->importVertex3D(vertex, 3, 0);
+
 //    RenderShader* shader = new RenderShader(str, RenderShaderType::RENDER_VERTEX_SHADER);
     RenderProgram* program = new RenderProgram(vertexShaderStr, fragmentShaderStr);
 
     while (!glfwWindowShouldClose(window)) {
+        glClear(GL_COLOR_BUFFER_BIT);
+
+        program->useProgram();
+        vao->bindVAO();
+
+        glDrawArrays(GL_TRIANGLES, 0, 3);
+
         glfwSwapBuffers(window);
         glfwPollEvents();
     }
 
 //    delete shader;
+    delete vao;
     delete program;
 
     glfwTerminate();

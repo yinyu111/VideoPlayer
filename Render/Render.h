@@ -9,6 +9,7 @@
 #include <GLFW/glfw3.h>
 
 #include <iostream>
+#include <vector>
 
 enum RenderShaderType{
     RENDER_VERTEX_SHADER = 1,
@@ -29,8 +30,22 @@ public:
     RenderProgram(char* vertexShaderStr, char* fragmentShaderStr);
     ~RenderProgram();
 
+    int useProgram();
 public:
     GLuint program = 0;
+};
+
+class RenderVAO{
+public:
+    RenderVAO();
+    ~RenderVAO();
+
+    int importVertex3D(float* vertexData, int num, int layout);
+    int bindVAO();
+
+public:
+    GLuint vao = 0;
+    std::vector<GLuint> vboList;
 };
 
 

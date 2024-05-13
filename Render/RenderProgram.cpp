@@ -33,5 +33,11 @@ RenderProgram::RenderProgram(char* vertexShaderStr, char* fragmentShaderStr) {
 RenderProgram::~RenderProgram() {
     if (program != 0) {
         glDeleteProgram(program);
+        program = 0;
     }
+}
+
+int RenderProgram::useProgram() {
+    glUseProgram(program);
+    return 0;
 }

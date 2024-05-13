@@ -12,6 +12,7 @@ add_library(
         Render.h
         RenderProgram.cpp
         RenderShader.cpp
+        RenderVAO.cpp
 )
 
 file(REAL_PATH ../3rdpard/glfw/lib/libglfw.3.4.dylib ABSOLUTE_PATH)
