@@ -40,12 +40,16 @@ public:
     RenderVAO();
     ~RenderVAO();
 
-    int importVertex3D(float* vertexData, int num, int layout);
+    int importVertex3D(float* vertexData, int dataNum, int layout);
+    int setEBOIndex(unsigned int* rboData, int dataNum);
     int bindVAO();
+    int Draw();
 
 public:
     GLuint vao = 0;
+    GLuint ebo = 0;
     std::vector<GLuint> vboList;
+    GLuint drawTime = 0;
 };
 
 

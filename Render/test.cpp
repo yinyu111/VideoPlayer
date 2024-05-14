@@ -38,11 +38,12 @@ int test::testMain() {
     char* vertexShaderStr =
             "#version 330 core\n"
             "layout (location = 0) in vec3 pos;\n"
+            "uniform float a;"
             "out vec3 outPos;"
             "void main()\n"
             "{\n"
             "   outPos = pos;\n"
-            "   gl_Position = vec4(pos, 1.0);\n"
+            "   gl_Position = vec4(pos.x * a, pos.y * a, pos.z * a, 1.0);\n"
             "}\n";
 
     char* fragmentShaderStr =
@@ -80,12 +81,21 @@ int test::testMain() {
     std::cout << fragmentShaderStr << std::endl;
 
     float vertex[] = {
-            0.0f, 1.0f, 0.0,
-            1.0f, -1.0f, 1.0,
-            -1.0f, -1.0f, 0.0,
+            -1.0f, 1.0f, 0.0f,
+            1.0f, 1.0f, 0.0f,
+            -1.0f, -1.0f, 0.0f,
+            1.0f, -1.0f, 1.0f,
     };
+
+    unsigned int eboIndex[] = {
+        0, 1, 3,
+        1, 2, 3,
+    };
+    float a = 0;
+
     RenderVAO* vao = new RenderVAO();
-    vao->importVertex3D(vertex, 3, 0);
+    vao->importVertex3D(vertex, 4, 0);
+    vao->setEBOIndex(eboIndex, 6);
 
 //    RenderShader* shader = new RenderShader(str, RenderShaderType::RENDER_VERTEX_SHADER);
     RenderProgram* program = new RenderProgram(vertexShaderStr, fragmentShaderStr);
@@ -93,10 +103,16 @@ int test::testMain() {
     while (!glfwWindowShouldClose(window)) {
         glClear(GL_COLOR_BUFFER_BIT);
 
-        program->useProgram();
-        vao->bindVAO();
+        float _a = sin(a);
+        a += 0.1;
+        // 获取uniform变量的位置
+        GLint timeLocation = glGetUniformLocation(program->program, "a");
+        glUniform1f(timeLocation, _a);
 
-        glDrawArrays(GL_TRIANGLES, 0, 3);
+        program->useProgram();
+
+        vao->Draw();
+//        glDrawArrays(GL_TRIANGLES, 0, 3);
 
         glfwSwapBuffers(window);
         glfwPollEvents();
