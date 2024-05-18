@@ -41,6 +41,7 @@ int AVReader::GetStream(AVReaderStream* readerStream, int streamID) {
     readerStream->streamIndex = avStream->index;
     readerStream->timebaseNum = avStream->time_base.num;
     readerStream->timebaseDen = avStream->time_base.den;
+    readerStream->duration = avStream->duration;
 
     int ret = avcodec_parameters_copy(readerStream->avStreamManager->codecPar, avStream->codecpar);
     if (ret < 0) {

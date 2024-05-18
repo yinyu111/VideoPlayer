@@ -66,6 +66,11 @@ void AVSyncThread::run() {
                     AVRGBData* rgb = new AVRGBData(videoFrame->GetWidth(), videoFrame->GetHeigth());
                     videoFrame->GetRGBData(rgb->rgbData);
                     rgb->pts = videoFramePTS;
+
+                    if (videoFrame->GetDurationSec() * 1000 <= videoFramePTS) {
+                        rgb->isEOF = true;
+                    }
+
                     renderQueue.Push(rgb);
                 }
 

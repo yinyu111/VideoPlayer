@@ -68,6 +68,9 @@ int AVReaderFrame::GetWidth() {
 int AVReaderFrame::GetHeigth() {
     return avFrameManager->avFrame->height;
 }
+long long AVReaderFrame::GetDurationSec() {
+    return durationSec;
+}
 long long AVReaderFrame::GetPTS() {
     return avFrameManager->ptsSec * 1000;
 }

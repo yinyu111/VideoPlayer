@@ -236,6 +236,10 @@ int main() {
             //可能会内存泄漏 之后看下
 //            delete renderFrame;
             rgb->rgbData = nullptr;
+
+            if (rgb->isEOF) {
+                break;
+            }
         }
         else {
             continue;

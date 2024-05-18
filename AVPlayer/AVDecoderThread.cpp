@@ -73,6 +73,7 @@ void AVDecoderThread::run() {
             if (synvThread != nullptr && decoderType == DECODER_TYPE_AUDIO) {
                 synvThread->PushFrameToAudioQueue(recvFrame);
             }
+
 //            std::cout << "recv frame success! frameCount:" << frameCount << std::endl;
 //            std::this_thread::sleep_for(std::chrono::seconds(1));
         }

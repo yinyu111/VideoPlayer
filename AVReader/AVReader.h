@@ -32,6 +32,7 @@ public:
 
     int GetWidth();
     int GetHeigth();
+    long long GetDurationSec();
     long long GetPTS();
 
     int GetLineSize0();
@@ -42,6 +43,7 @@ public:
     int GetV(unsigned char* v);
 public:
     AVFrameManager* avFrameManager = nullptr;
+    long long durationSec = -1;
 };
 
 class AVReaderStream {
@@ -52,6 +54,7 @@ public:
     int streamIndex = -1;
     int timebaseNum = 0;
     int timebaseDen = 0;
+    long long duration = -1;
     AVStreamManager* avStreamManager = nullptr;
 };
 
@@ -88,6 +91,7 @@ public:
 private:
     int timebaseNum = 0;
     int timebaseDen = 0;
+    long long duration = -1;
     AVDecoderManager* avDecoderManager = nullptr;
 
 };

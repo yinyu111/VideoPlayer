@@ -50,6 +50,8 @@ public:
     std::string sourcePath;
     AVPlayerState playerState;
     double seekTime;
+    long long duration;
+
 };
 
 class AVReaderThread : public VideoThread{

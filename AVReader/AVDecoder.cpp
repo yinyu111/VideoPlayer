@@ -25,6 +25,7 @@ AVDecoder::~AVDecoder() {
 int AVDecoder::Init(AVReaderStream* stream) {
     timebaseNum = stream->timebaseNum;
     timebaseDen = stream->timebaseDen;
+    duration = stream->duration;
 
     avcodec_parameters_to_context(avDecoderManager->codecCtx, stream->avStreamManager->codecPar);
     const AVCodec* avCodec = avcodec_find_decoder(avDecoderManager->codecCtx->codec_id);
@@ -52,6 +53,7 @@ int AVDecoder::RecvFrame(AVReaderFrame** frame) {
     if (!ret) {
         //计算秒级时间戳
         (*frame)->avFrameManager->ptsSec = (*frame)->avFrameManager->avFrame->pts * 1.0 * timebaseNum / timebaseDen;
+        (*frame)->durationSec = duration* 1.0 * timebaseNum / timebaseDen;
     }
     return ret;
 }

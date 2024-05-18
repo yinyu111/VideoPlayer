@@ -37,6 +37,7 @@ public:
     int width;
     int heigth;
     long long pts;
+    bool isEOF;
 
     AVRGBData(int w, int h) : width(w), heigth(h) {
         // 计算所需内存大小
@@ -46,6 +47,7 @@ public:
         rgbData = new unsigned char[size];
 
         pts = -1;
+        isEOF = false;
     }
 
     // 析构函数
