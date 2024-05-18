@@ -11,6 +11,17 @@
 #include <iostream>
 #include <vector>
 
+#include "VideoThread/VideoThread.h"
+#include "AVReader/AVReader.h"
+#include "AVQueue/AVQueue.h"
+
+enum RenderState {
+    AV_RENDER_INIT,
+    AV_RENDER_PLAYING,
+    AV_RENDER_PAUSED,
+    AV_RENDER_STOPPED
+};
+
 enum RenderShaderType{
     RENDER_VERTEX_SHADER = 1,
     RENDER_FRAGMENT_SHADER = 2,
@@ -50,6 +61,28 @@ public:
     GLuint ebo = 0;
     std::vector<GLuint> vboList;
     GLuint drawTime = 0;
+};
+
+class RenderThread : public VideoThread{
+public:
+    RenderThread(int _renderWidth, int _renderheight);
+    ~RenderThread();
+
+    virtual void run();
+
+//    int Start();
+//    int Pause();
+
+public:
+    AVQueue<AVReaderFrame> renderQueue;
+    RenderState renderState;
+    int renderWidth;
+    int renderheight;
+
+    GLFWwindow* window;
+    RenderVAO* vao;
+    RenderProgram* program;
+    GLuint textureIndex;
 };
 
 

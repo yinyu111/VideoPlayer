@@ -98,11 +98,11 @@ int main3() {
         std::cout << "readerStreamIndex:" << i <<  " push success!" << std::endl;
     }
 
-    int i = 100;
+    int i = 1;
     int videoStreamIndex = reader.GetVideoStreamIndex();
     int audioStreamIndex = reader.GetAudioStreamIndex();
 
-    FILE* file = fopen("/Users/yinyu/code/testVideo/mumu1.yuv", "wb");
+    FILE* file = fopen("/Users/yinyu/code/testVideo/mumu1.rgb", "wb");
     AVQueue<AVReaderPacket> packetQueue;
 
     while (i) {
@@ -125,7 +125,7 @@ int main3() {
             break;
         }
 
-        while (1) {
+        while (i) {
             AVReaderFrame* readerFrame = new AVReaderFrame();
             ret = avReaderDecoder->RecvFrame(&readerFrame);
             if (ret) {
@@ -142,26 +142,34 @@ int main3() {
 
             int width = readerFrame->GetWidth();
             int height = readerFrame->GetHeigth();
-            unsigned char* y = (unsigned char*)malloc(width * height);
-            unsigned char* u = (unsigned char*)malloc(width * height / 4);
-            unsigned char* v = (unsigned char*)malloc(width * height / 4);
+//            unsigned char* y = (unsigned char*)malloc(width * height);
+//            unsigned char* u = (unsigned char*)malloc(width * height / 4);
+//            unsigned char* v = (unsigned char*)malloc(width * height / 4);
+//
+//            readerFrame->GetY(y);
+//            readerFrame->GetU(u);
+//            readerFrame->GetV(v);
+//
+//            fwrite(y, width * height, 1, file);
+//            fwrite(u, width * height / 4, 1, file);
+//            fwrite(v, width * height / 4, 1, file);
+//
+//            free(y);
+//            free(u);
+//            free(v);
 
-            readerFrame->GetY(y);
-            readerFrame->GetU(u);
-            readerFrame->GetV(v);
+            unsigned char* rgbData = (unsigned char*)malloc(width * height * 3);
+            readerFrame->GetRGBData(rgbData);
+            fwrite(rgbData, width * height * 3, 1, file);
 
-            fwrite(y, width * height, 1, file);
-            fwrite(u, width * height / 4, 1, file);
-            fwrite(v, width * height / 4, 1, file);
-
-            free(y);
-            free(u);
-            free(v);
+            std::cout << rgbData << std::endl;
+            free(rgbData);
+            i--;
         }
 
 
 //        std::cout << "read frame success! i:" << i << std::endl;
-        i--;
+//        i--;
     }
 
     for (int i = 0; i < decoderList.size(); ++i) {
@@ -210,7 +218,7 @@ int main3() {
 
 
 #include "Render/Render.h"
-int main() {
+int main5() {
     test::testMain();
     return 0;
 }

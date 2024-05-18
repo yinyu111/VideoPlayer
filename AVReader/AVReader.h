@@ -7,6 +7,7 @@
 
 class AVPacketManager;
 class AVFrameManager;
+class AVRGBData;
 class AVFormatManager;
 class AVDecoderManager;
 class AVStreamManager;
@@ -33,6 +34,9 @@ public:
     int GetHeigth();
     long long GetPTS();
 
+    int GetLineSize0();
+    int GetData0(unsigned char* data0);
+    int GetRGBData(unsigned char* rgbData);
     int GetY(unsigned char* y);
     int GetU(unsigned char* u);
     int GetV(unsigned char* v);

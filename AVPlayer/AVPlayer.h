@@ -10,6 +10,7 @@
 #include "VideoThread/VideoThread.h"
 #include "AVReader/AVReader.h"
 #include "AVQueue/AVQueue.h"
+#include "Render/Render.h"
 
 enum DecoderType {
     DECODER_TYPE_UNKNOWN,
@@ -42,6 +43,9 @@ public:
 public:
     AVQueue<AVReaderFrame> videoQueue;
     AVQueue<AVReaderFrame> audioQueue;
+
+    AVQueue<AVRGBData> renderQueue;
+
 
     std::string sourcePath;
     AVPlayerState playerState;

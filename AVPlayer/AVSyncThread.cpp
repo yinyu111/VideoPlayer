@@ -4,6 +4,7 @@
 
 #include <thread>
 #include "AVPlayer.h"
+#include "AVReader/AVManager.h"
 #include "AVUtils/AVTime.h"
 
 AVSyncThread::AVSyncThread(std::string _sourcePath, double _seekTime) {
@@ -19,6 +20,9 @@ AVSyncThread::~AVSyncThread() {
 void AVSyncThread::run() {
     AVReaderThread* readerThread = new AVReaderThread(sourcePath, this, seekTime);
     readerThread->Start();
+
+//    RenderThread* renderThread = new RenderThread(2, 2);
+//    renderThread->Start();
 
     long long startTime = AVTime::GetTime();
     long long puaseTime = 0;
@@ -57,7 +61,16 @@ void AVSyncThread::run() {
 
             if (videoFramePTS < diffTime) {
                 std::cout << "play videoFrame! PTSTime:" << videoFramePTS <<std::endl;
-                delete videoFrame;
+
+                if (videoFrame->GetWidth() != 0) {
+                    AVRGBData* rgb = new AVRGBData(videoFrame->GetWidth(), videoFrame->GetHeigth());
+                    videoFrame->GetRGBData(rgb->rgbData);
+                    rgb->pts = videoFramePTS;
+                    renderQueue.Push(rgb);
+                }
+
+                //可能会内存泄漏 之后看下
+//                delete videoFrame;
                 videoFrame = nullptr;
             }
             else {

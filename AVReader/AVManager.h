@@ -30,6 +30,31 @@ public:
     double ptsSec = 0.0;
 };
 
+class AVRGBData
+{
+public:
+    unsigned char* rgbData;
+    int width;
+    int heigth;
+    long long pts;
+
+    AVRGBData(int w, int h) : width(w), heigth(h) {
+        // 计算所需内存大小
+        int size = width * heigth * 3; // 假设每个像素是 3 字节（RGB）
+
+        // 动态分配内存
+        rgbData = new unsigned char[size];
+
+        pts = -1;
+    }
+
+    // 析构函数
+    ~AVRGBData() {
+        // 释放内存
+        delete[] rgbData;
+    }
+};
+
 class AVFormatManager
 {
 public:

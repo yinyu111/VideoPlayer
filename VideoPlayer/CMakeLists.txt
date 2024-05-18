@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.27)
 
 include_directories(../)
-#include_directories(../3rdpard/ffmpeg/include)
+include_directories(../3rdpard/ffmpeg/include)
 link_directories(../3rdpard/ffmpeg/lib)
 
 include_directories(../3rdpard/glfw/include)

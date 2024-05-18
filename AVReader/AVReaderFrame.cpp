@@ -72,6 +72,70 @@ long long AVReaderFrame::GetPTS() {
     return avFrameManager->ptsSec * 1000;
 }
 
+int AVReaderFrame::GetLineSize0() {
+    return avFrameManager->avFrame->linesize[0];
+}
+
+int AVReaderFrame::GetData0(unsigned char* data0) {
+    // 确保 avFrame 是有效的
+    if (avFrameManager->avFrame == nullptr) {
+        return -1; // 或者抛出异常或返回其他错误代码
+    }
+
+    // 获取 data[0] 数据
+    memcpy(data0, avFrameManager->avFrame->data[0], avFrameManager->avFrame->linesize[0]);
+
+    // 返回成功
+    return 0;
+}
+
+extern "C" {
+    #include <libavutil/imgutils.h>
+    #include <libswscale/swscale.h>
+}
+
+int AVReaderFrame::GetRGBData(unsigned char* rgbData) {
+    if (!avFrameManager->avFrame || !rgbData) {
+        return -1; // 输入参数无效
+    }
+
+    int width = avFrameManager->avFrame->width;
+    int height = avFrameManager->avFrame->height;
+
+    //创建一个 SwsContext 用于缩放和格式转换
+    struct SwsContext* swsContext = sws_getContext(
+            width, height, (AVPixelFormat)avFrameManager->avFrame->format, // 输入图像的尺寸和格式
+            width, height, AV_PIX_FMT_RGB24, // 输出图像的尺寸和格式
+            SWS_BILINEAR, NULL, NULL, NULL // 缩放算法和过滤器参数
+    );
+
+    if (!swsContext) {
+        return -2; // 无法创建 SwsContext
+    }
+
+    // 准备输出参数
+    uint8_t* destData[4] = { rgbData }; // 输出数据数组，只包含一个平面
+    int destLinesize[4] = { 3 * width }; // 每行输出数据的字节数，RGB24 格式每个像素 3 字节
+
+    // 执行转换
+    int result = sws_scale(
+            swsContext, // SwsContext
+            avFrameManager->avFrame->data, // 输入数据
+            avFrameManager->avFrame->linesize, // 输入行大小
+            0, height, // 输入图像的起始行和高度
+            destData, // 输出数据
+            destLinesize // 输出行大小
+    );
+
+    // 释放 SwsContext
+    sws_freeContext(swsContext);
+
+    if (result < 0) {
+        return -3; // 转换失败
+    }
+    return 0; // 转换成功
+}
+
 int AVReaderFrame::GetY(unsigned char* y) {
     int width = GetWidth();
     int heigth = GetHeigth();
