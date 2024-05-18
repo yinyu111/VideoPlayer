@@ -90,7 +90,7 @@ int main() {
             "    vec2 uv = vec2(outuvPos.x, outuvPos.y);\n"
             //            "    vec2 uv = vec2(1.0, 0.0);"
             "    vec4 color = texture(t, uv);\n"
-//            "    rgbaColor = vec4(outPos, 1.0);\n"
+            "    rgbaColor = vec4(outPos, 1.0);\n"
             "    rgbaColor = color;\n"
             "}\n";
 
@@ -165,16 +165,16 @@ int main() {
     vao->setEBOIndex(eboIndex, 6);
 
 //    RenderShader* shader = new RenderShader(str, RenderShaderType::RENDER_VERTEX_SHADER);
-    RenderProgram* program = new RenderProgram(vertexShaderStr, fragmentShaderStr1);
+    RenderProgram* program = new RenderProgram(vertexShaderStr, fragmentShaderStr);
 
     int w = 1280;
     int h = 720;
-//    unsigned char imageData[] = {
-//            255, 0, 0,
-//            0, 255, 0,
-//            0, 0, 255,
-//            0, 0, 0,
-//    };
+    unsigned char imageData[] = {
+            255, 0, 0,
+            0, 255, 0,
+            0, 0, 255,
+            0, 0, 0,
+    };
 //    unsigned char imageData[] = {
 //            0, 0, 255,
 //            0, 0, 255,
@@ -198,7 +198,7 @@ int main() {
     //设置一字节对齐
     glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
     //分配纹理内存
-//    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, w, h, 0, GL_RGB, GL_UNSIGNED_BYTE, imageData);
+//    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 2, 2, 0, GL_RGB, GL_UNSIGNED_BYTE, imageData);
 //    glFramebufferTexture2D();
 //    glFramebufferTexture();
 
