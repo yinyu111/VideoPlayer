@@ -1,0 +1,176 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"childIndexes" : 
+					[
+						1,
+						2,
+						3,
+						4,
+						5
+					],
+					"jsonFile" : "directory-.-Debug-f5ebdc15457944623624.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.27"
+					},
+					"projectIndex" : 0,
+					"source" : "."
+				},
+				{
+					"build" : "VideoPlayer",
+					"jsonFile" : "directory-VideoPlayer-Debug-99d0c07670f76079a963.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.27"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "VideoPlayer",
+					"targetIndexes" : 
+					[
+						3
+					]
+				},
+				{
+					"build" : "VideoThread",
+					"jsonFile" : "directory-VideoThread-Debug-1433b0cf5b3d864ae3ef.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.27"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "VideoThread",
+					"targetIndexes" : 
+					[
+						4
+					]
+				},
+				{
+					"build" : "AVReader",
+					"jsonFile" : "directory-AVReader-Debug-67ddbe935181e525c962.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.27"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "AVReader",
+					"targetIndexes" : 
+					[
+						1
+					]
+				},
+				{
+					"build" : "AVPlayer",
+					"jsonFile" : "directory-AVPlayer-Debug-c51090ca4f73b02b45c8.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.27"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "AVPlayer",
+					"targetIndexes" : 
+					[
+						0
+					]
+				},
+				{
+					"build" : "Render",
+					"jsonFile" : "directory-Render-Debug-bc54b9b57dd5d97c9a85.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.27"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "Render",
+					"targetIndexes" : 
+					[
+						2
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						4,
+						5
+					],
+					"name" : "VideoPlayer",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						4
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 4,
+					"id" : "AVPlayer::@958e19f47b39517b237f",
+					"jsonFile" : "target-AVPlayer-Debug-dba362defe810f2feb53.json",
+					"name" : "AVPlayer",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 3,
+					"id" : "AVReader::@478b4cc8f9b1c3daaaa1",
+					"jsonFile" : "target-AVReader-Debug-1c3612fef107096411ce.json",
+					"name" : "AVReader",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 5,
+					"id" : "Render::@6b32b2e847f07672bb6d",
+					"jsonFile" : "target-Render-Debug-51db5746dc201b4d1a30.json",
+					"name" : "Render",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "VideoPlayer::@973715d6eeec3e0fbb5d",
+					"jsonFile" : "target-VideoPlayer-Debug-77e62935c89b36f7949e.json",
+					"name" : "VideoPlayer",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 2,
+					"id" : "VideoThread::@ee37b6be5d767db351ba",
+					"jsonFile" : "target-VideoThread-Debug-ce4ce6cfe1d0fdb19ca2.json",
+					"name" : "VideoThread",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "/Users/yinyu/code/CLion/VideoPlayer/cmake-build-debug",
+		"source" : "/Users/yinyu/code/CLion/VideoPlayer"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 7
+	}
+}

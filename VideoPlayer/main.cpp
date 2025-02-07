@@ -58,8 +58,8 @@ int main() {
 
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-    int width = 1280;
-    int height = 720;
+    int width = 1920;
+    int height = 1080;
     GLFWwindow* window = glfwCreateWindow(width, height, "VideoPlayer", NULL, NULL);
     glfwMakeContextCurrent(window);
 
@@ -204,7 +204,7 @@ int main() {
 
 
 
-    AVPlayer* avPlayer = new AVPlayer("/Users/yinyu/code/testVideo/mumu.mp4");
+    AVPlayer* avPlayer = new AVPlayer("/Users/yinyu/code/CLion/VideoPlayer/mumu.mp4");
 
     avPlayer->Open(0);
     avPlayer->Play();
